@@ -39,6 +39,9 @@ public class ConnectionFactory {
     }
 
     public static void close(Connection connection) {
+        if (connection == null)
+            return;
+
         try {
             connection.close();
         } catch (SQLException e) {

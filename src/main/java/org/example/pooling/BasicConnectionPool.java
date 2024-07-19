@@ -66,7 +66,12 @@ public class BasicConnectionPool implements ConnectionPool {
 
     @Override
     public boolean releaseConnection(Connection connection)  {
-        if (connection == null || ConnectionFactory.isClosed(connection)) {
+        if (!connectionTimeMap.containsKey(connection)) {
+            ConnectionFactory.close(connection);
+            return false;
+        }
+
+        if (ConnectionFactory.isClosed(connection)) {
             connection = ConnectionFactory.getConnection();
         }
 
