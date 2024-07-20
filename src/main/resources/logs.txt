@@ -1,251 +1,77 @@
-[1721390961583]  [Main]:Running test
-[1721390962851]  [TestTask]:Thread:Thread[#29,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@262b2c86
-[1721390962851]  [TestTask]:Thread:Thread[#28,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@13c27452
-[1721390962852]  [TestTask]:Thread:Thread[#30,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@371a67ec
-[1721390962852]  [TestTask]:Thread:Thread[#27,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@12f41634
-[1721391082850]  [TestTask]:Thread:Thread[#27,pool-1-thread-1,5,main] executed 361700 inserts
-[1721391082851]  [TestTask]:Thread:Thread[#29,pool-1-thread-3,5,main] executed 362160 inserts
-[1721391082851]  [TestTask]:Thread:Thread[#28,pool-1-thread-2,5,main] executed 361443 inserts
-[1721391082852]  [TestTask]:Thread:Thread[#30,pool-1-thread-4,5,main] executed 362286 inserts
-[1721391082855]  [Main]:Total inserts:1447589
-[1721391082855]  [Main]:Connections in pool:5
-[1721391142804]  [CleanupTask]:Running cleanup task for [5] connections
-[1721391142809]  [CleanupTask]:Closed 1 connections
-[1721391322805]  [CleanupTask]:Running cleanup task for [4] connections
-[1721391322808]  [CleanupTask]:Closed 4 connections
-[1721391502806]  [CleanupTask]:Running cleanup task for [0] connections
-[1721391502806]  [CleanupTask]:Closed 0 connections
-[1721391682818]  [CleanupTask]:Running cleanup task for [0] connections
-[1721391682819]  [CleanupTask]:Closed 0 connections
+[1721474297767]  [Main]:[TEST] [MaxConnectionCount] 20 [MaxIdlePeriod] 60000 [CleanupRate] 60000 [TestDuration] 150000 [InsertTaskDuration] 60000 [ThreadCount] 4
+[1721474297776]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes one connection after first cleanup, 4 connections after second cleanup
+[1721474297777]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] Assigns 4 distinct connections at first task
+[1721474297783]  [InsertTask]:Connections in pool:5
+[1721474297792]  [InsertTask]:Thread:Thread[#30,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@747372ac
+[1721474297793]  [InsertTask]:Thread:Thread[#28,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@523f6ce5
+[1721474297794]  [InsertTask]:Thread:Thread[#31,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@480bc3fa
+[1721474297795]  [InsertTask]:Thread:Thread[#29,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@6a0199fb
+[1721474357939]  [InsertTask]:Thread:Thread[#29,pool-1-thread-2,5,main] released it's connection
+[1721474357944]  [InsertTask]:Thread:Thread[#29,pool-1-thread-2,5,main] executed 202252 inserts
+[1721474357992]  [InsertTask]:Thread:Thread[#31,pool-1-thread-4,5,main] released it's connection
+[1721474357993]  [InsertTask]:Thread:Thread[#31,pool-1-thread-4,5,main] executed 199747 inserts
+[1721474358136]  [InsertTask]:Thread:Thread[#30,pool-1-thread-3,5,main] released it's connection
+[1721474358136]  [InsertTask]:Thread:Thread[#30,pool-1-thread-3,5,main] executed 200604 inserts
+[1721474358190]  [InsertTask]:Thread:Thread[#28,pool-1-thread-1,5,main] released it's connection
+[1721474358190]  [InsertTask]:Thread:Thread[#28,pool-1-thread-1,5,main] executed 199993 inserts
+[1721474358191]  [InsertTask]:Total inserts:802596
+[1721474358192]  [CleanupTask]:Running cleanup task for [5] connections
+[1721474358198]  [CleanupTask]:Closed 1 connections
+[1721474418193]  [CleanupTask]:Running cleanup task for [4] connections
+[1721474418196]  [CleanupTask]:Closed 4 connections
+[1721474447778]  [Main]:Test execution finished
+[1721474447779]  [Main]:All scheduled tasks stopped
+[1721474447780]  [Main]:Shutdown. Connections in pool:0
+[1721474447782]  [Main]:Connections in the pool after shutdown:0
 
 
-[1721393783028]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes one connection after a run, after two runs closes all connections
-[1721393783049]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] Assign 4 distinct connections on first run of the task, on second run to create 4 connection
-[1721393784334]  [Main]:Connections in pool:5
-[1721393784390]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@5bfbf16f
-[1721393784390]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@25af5db5
-[1721393784392]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@59906517
-[1721393784394]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@12cdcf4
-[1721393904390]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] executed 351594 inserts
-[1721393904390]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] executed 352670 inserts
-[1721393904390]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] executed 350406 inserts
-[1721393904393]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] executed 350700 inserts
-[1721393904393]  [TestTask]:Total inserts:1405370
-[1721393964331]  [CleanupTask]:Running cleanup task for [5] connections
-[1721393964335]  [CleanupTask]:Closed 1 connections
-[1721394144331]  [CleanupTask]:Running cleanup task for [4] connections
-[1721394144333]  [CleanupTask]:Closed 4 connections
-[1721394144913]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@3411e182
-[1721394145097]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@67f998d8
-[1721394145243]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@4a4cfb50
-[1721394145356]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@41360576
-[1721394264864]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] executed 366834 inserts
-[1721394264864]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] executed 363950 inserts
-[1721394264864]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] executed 365016 inserts
-[1721394264864]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] executed 364534 inserts
-[1721394264865]  [TestTask]:Total inserts:1460334
-[1721394324332]  [CleanupTask]:Running cleanup task for [4] connections
-[1721394324332]  [CleanupTask]:Closed 0 connections
-[1721394504341]  [CleanupTask]:Running cleanup task for [4] connections
-[1721394504343]  [CleanupTask]:Closed 4 connections
-[1721394505420]  [TestTask]:Thread:Thread[#36,pool-3-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@7b8059c4
-[1721394505476]  [TestTask]:Thread:Thread[#39,pool-3-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@6cc6fc43
-[1721394505553]  [TestTask]:Thread:Thread[#38,pool-3-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@4d4bf0af
-[1721394505634]  [TestTask]:Thread:Thread[#37,pool-3-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@46fa2a8b
-[1721394625377]  [TestTask]:Thread:Thread[#39,pool-3-thread-4,5,main] executed 394500 inserts
-[1721394625377]  [TestTask]:Thread:Thread[#36,pool-3-thread-1,5,main] executed 397067 inserts
-[1721394625377]  [TestTask]:Thread:Thread[#38,pool-3-thread-3,5,main] executed 396966 inserts
-[1721394625377]  [TestTask]:Thread:Thread[#37,pool-3-thread-2,5,main] executed 397023 inserts
-[1721394625378]  [TestTask]:Total inserts:1585556
-[1721394684342]  [CleanupTask]:Running cleanup task for [4] connections
-[1721394684342]  [CleanupTask]:Closed 0 connections
-[1721394864354]  [CleanupTask]:Running cleanup task for [4] connections
-[1721394864356]  [CleanupTask]:Closed 4 connections
+[1721474842627]  [Main]:[TEST] [MaxConnectionCount] 20 [MaxIdlePeriod] 60000 [CleanupRate] 60000 [TestDuration] 150000 [InsertTaskDuration] 60000 [ThreadCount] 4
+[1721474842642]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes no connection at first cleanup, closes all connections aat second cleanup
+[1721474842642]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] Assigns 4 distinct connections at first task (creating 2 new ones)
+[1721474842650]  [InsertTask]:Connections in pool:2
+[1721474842664]  [InsertTask]:Thread:Thread[#25,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@110fb8a1
+[1721474842673]  [InsertTask]:Thread:Thread[#27,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@70c1c244
+[1721474843206]  [InsertTask]:Thread:Thread[#28,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@2ed0557b
+[1721474843276]  [InsertTask]:Thread:Thread[#26,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@28cdcf56
+[1721474902718]  [InsertTask]:Thread:Thread[#25,pool-1-thread-1,5,main] released it's connection
+[1721474902723]  [InsertTask]:Thread:Thread[#25,pool-1-thread-1,5,main] executed 191482 inserts
+[1721474902773]  [InsertTask]:Thread:Thread[#26,pool-1-thread-2,5,main] released it's connection
+[1721474902773]  [InsertTask]:Thread:Thread[#26,pool-1-thread-2,5,main] executed 191124 inserts
+[1721474902823]  [InsertTask]:Thread:Thread[#28,pool-1-thread-4,5,main] released it's connection
+[1721474902823]  [InsertTask]:Thread:Thread[#28,pool-1-thread-4,5,main] executed 191023 inserts
+[1721474902868]  [InsertTask]:Thread:Thread[#27,pool-1-thread-3,5,main] released it's connection
+[1721474902868]  [InsertTask]:Thread:Thread[#27,pool-1-thread-3,5,main] executed 192942 inserts
+[1721474902869]  [InsertTask]:Total inserts:766571
+[1721474902869]  [CleanupTask]:Running cleanup task for [4] connections
+[1721474902873]  [CleanupTask]:Closed 0 connections
+[1721474962869]  [CleanupTask]:Running cleanup task for [4] connections
+[1721474962872]  [CleanupTask]:Closed 4 connections
+[1721474992645]  [Main]:Test execution finished
+[1721474992646]  [Main]:All scheduled tasks stopped
+[1721474992647]  [Main]:Shutdown. Connections in pool:0
+[1721474992648]  [Main]:Connections in the pool after shutdown:0
 
 
-[1721395689535]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes one connection after a run, after two runs closes all connections
-[1721395689557]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] Assign 4 distinct connections on first run of the task, on second run to create 4 connection
-[1721395690517]  [TestTask]:Connections in pool:5
-[1721395690528]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@cb51256
-[1721395690529]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@6043cd28
-[1721395690529]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@42d8062c
-[1721395690530]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@59906517
-[1721395810522]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] released it's connection
-[1721395810528]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] executed 371196 inserts
-[1721395810529]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] released it's connection
-[1721395810529]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] executed 372230 inserts
-[1721395810529]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] released it's connection
-[1721395810530]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] executed 373375 inserts
-[1721395810530]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] released it's connection
-[1721395810530]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] executed 374270 inserts
-[1721395810531]  [TestTask]:Total inserts:1491071
-[1721395870526]  [CleanupTask]:Running cleanup task for [5] connections
-[1721395870529]  [CleanupTask]:Closed 1 connections
-[1721396050526]  [CleanupTask]:Running cleanup task for [4] connections
-[1721396050529]  [CleanupTask]:Closed 4 connections
-[1721396051012]  [TestTask]:Connections in pool:0
-[1721396051102]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@280dd045
-[1721396051105]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@6407b81b
-[1721396051122]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@67adb83
-[1721396051299]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@48806033
-[1721396171014]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] released it's connection
-[1721396171014]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] executed 357363 inserts
-[1721396171015]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] released it's connection
-[1721396171015]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] executed 356756 inserts
-[1721396171016]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] released it's connection
-[1721396171016]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] executed 356074 inserts
-[1721396171017]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] released it's connection
-[1721396171017]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] executed 357747 inserts
-[1721396171017]  [TestTask]:Total inserts:1427940
-[1721396230526]  [CleanupTask]:Running cleanup task for [4] connections
-[1721396230527]  [CleanupTask]:Closed 0 connections
-
-[1721397590943]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes no connections
-[1721397590970]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] 9 connections to be assigned, max_connection_limmit
-[1721397591673]  [TestTask]:Connections in pool:3
-[1721397591683]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@42d8062c
-[1721397591684]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@6043cd28
-[1721397591693]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@cb51256
-[1721397592440]  [TestTask]:Thread:Thread[#29,pool-1-thread-5,5,main] has connection:org.postgresql.jdbc.PgConnection@3911f519
-[1721397593001]  [TestTask]:Thread:Thread[#30,pool-1-thread-6,5,main] has connection:org.postgresql.jdbc.PgConnection@45b3bcce
-[1721397594168]  [TestTask]:Thread:Thread[#31,pool-1-thread-7,5,main] has connection:org.postgresql.jdbc.PgConnection@2a89103f
-[1721397594238]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@1d82e7d5
-[1721397594624]  [TestTask]:Thread:Thread[#32,pool-1-thread-8,5,main] has connection:org.postgresql.jdbc.PgConnection@3262f3cc
-[1721397594767]  [TestTask]:Thread:Thread[#33,pool-1-thread-9,5,main] has connection:org.postgresql.jdbc.PgConnection@33054e96
-[1721397594871]  [TestTask]:Thread:Thread[#34,pool-1-thread-10,5,main] has connection:org.postgresql.jdbc.PgConnection@3f1231e4
-[1721397651678]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] released it's connection
-[1721397651685]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] executed 100218 inserts
-[1721397651686]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] released it's connection
-[1721397651686]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] executed 101066 inserts
-[1721397651693]  [TestTask]:Thread:Thread[#29,pool-1-thread-5,5,main] released it's connection
-[1721397651693]  [TestTask]:Thread:Thread[#29,pool-1-thread-5,5,main] executed 98409 inserts
-[1721397651694]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] released it's connection
-[1721397651694]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] executed 99613 inserts
-[1721397651695]  [TestTask]:Thread:Thread[#31,pool-1-thread-7,5,main] released it's connection
-[1721397651696]  [TestTask]:Thread:Thread[#31,pool-1-thread-7,5,main] executed 94883 inserts
-[1721397651696]  [TestTask]:Thread:Thread[#33,pool-1-thread-9,5,main] released it's connection
-[1721397651697]  [TestTask]:Thread:Thread[#33,pool-1-thread-9,5,main] executed 93895 inserts
-[1721397651697]  [TestTask]:Thread:Thread[#32,pool-1-thread-8,5,main] released it's connection
-[1721397651697]  [TestTask]:Thread:Thread[#32,pool-1-thread-8,5,main] executed 95455 inserts
-[1721397651698]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] released it's connection
-[1721397651698]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] executed 94717 inserts
-[1721397651699]  [TestTask]:Thread:Thread[#30,pool-1-thread-6,5,main] released it's connection
-[1721397651699]  [TestTask]:Thread:Thread[#30,pool-1-thread-6,5,main] executed 96056 inserts
+[1721476082738]  [Main]:[TEST] [MaxConnectionCount] 3 [MaxIdlePeriod] 60000 [CleanupRate] 60000 [TestDuration] 90000 [InsertTaskDuration] 60000 [ThreadCount] 4
+[1721476082748]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes no connection at first cleanup
+[1721476082748]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] Assigns 3 distinct connections (creating one more), one thread will not get a connection
+[1721476082753]  [InsertTask]:Connections in pool:2
+[1721476082770]  [InsertTask]:Thread:Thread[#25,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@70463f82
+[1721476082772]  [InsertTask]:Thread:Thread[#26,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@783fadc2
+[1721476083171]  [InsertTask]:Thread:Thread[#27,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@5bcfa386
+[1721476083173]  [InsertTask]:Thread:Thread[#28,pool-1-thread-4,5,main] has no connection
+[1721476142809]  [InsertTask]:Thread:Thread[#26,pool-1-thread-2,5,main] released it's connection
+[1721476142817]  [InsertTask]:Thread:Thread[#26,pool-1-thread-2,5,main] executed 217375 inserts
+[1721476142884]  [InsertTask]:Thread:Thread[#27,pool-1-thread-3,5,main] released it's connection
+[1721476142884]  [InsertTask]:Thread:Thread[#27,pool-1-thread-3,5,main] executed 216328 inserts
+[1721476142946]  [InsertTask]:Thread:Thread[#25,pool-1-thread-1,5,main] released it's connection
+[1721476142947]  [InsertTask]:Thread:Thread[#25,pool-1-thread-1,5,main] executed 217433 inserts
+[1721476142947]  [InsertTask]:Total inserts:651136
+[1721476142948]  [CleanupTask]:Running cleanup task for [3] connections
+[1721476142952]  [CleanupTask]:Closed 0 connections
+[1721476172750]  [Main]:Test execution finished
+[1721476172750]  [Main]:All scheduled tasks stopped
+[1721476172751]  [Main]:Shutdown. Connections in pool:3
+[1721476172754]  [Main]:Connections in the pool after shutdown:0
 
 
-[1721398054469]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes no connections
-[1721398054492]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] 9 connections to be assigned, max_connection_limit
-[1721398055267]  [TestTask]:Connections in pool:3
-[1721398055322]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@12cdcf4
-[1721398055326]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@25af5db5
-[1721398055326]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@5bcea91b
-[1721398055804]  [TestTask]:Thread:Thread[#29,pool-1-thread-5,5,main] has connection:org.postgresql.jdbc.PgConnection@2a74bc1
-[1721398057108]  [TestTask]:Thread:Thread[#34,pool-1-thread-10,5,main] has connection:org.postgresql.jdbc.PgConnection@79a19a06
-[1721398057634]  [TestTask]:Thread:Thread[#33,pool-1-thread-9,5,main] has connection:org.postgresql.jdbc.PgConnection@735037e6
-[1721398058028]  [TestTask]:Thread:Thread[#32,pool-1-thread-8,5,main] has connection:org.postgresql.jdbc.PgConnection@1894a1d6
-[1721398059220]  [TestTask]:Thread:Thread[#31,pool-1-thread-7,5,main] has connection:org.postgresql.jdbc.PgConnection@7a1bd96f
-[1721398060399]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@2831008d
-[1721398060406]  [TestTask]:Thread:Thread[#30,pool-1-thread-6,5,main] has no connection:Max pool size reached
-[1721398115300]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] released it's connection
-[1721398115309]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] executed 124441 inserts
-[1721398115319]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] released it's connection
-[1721398115320]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] executed 125434 inserts
-[1721398115320]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] released it's connection
-[1721398115320]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] executed 124961 inserts
-[1721398115323]  [TestTask]:Thread:Thread[#29,pool-1-thread-5,5,main] released it's connection
-[1721398115323]  [TestTask]:Thread:Thread[#29,pool-1-thread-5,5,main] executed 124146 inserts
-[1721398115326]  [TestTask]:Thread:Thread[#32,pool-1-thread-8,5,main] released it's connection
-[1721398115326]  [TestTask]:Thread:Thread[#32,pool-1-thread-8,5,main] executed 119955 inserts
-[1721398115327]  [TestTask]:Thread:Thread[#31,pool-1-thread-7,5,main] released it's connection
-[1721398115327]  [TestTask]:Thread:Thread[#31,pool-1-thread-7,5,main] executed 117518 inserts
-[1721398115328]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] released it's connection
-[1721398115328]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] executed 114503 inserts
-[1721398115328]  [TestTask]:Thread:Thread[#34,pool-1-thread-10,5,main] released it's connection
-[1721398115329]  [TestTask]:Thread:Thread[#34,pool-1-thread-10,5,main] executed 121771 inserts
-[1721398115329]  [TestTask]:Thread:Thread[#33,pool-1-thread-9,5,main] released it's connection
-[1721398115330]  [TestTask]:Thread:Thread[#33,pool-1-thread-9,5,main] executed 120405 inserts
-[1721398115334]  [CleanupTask]:Running cleanup task for [9] connections
-[1721398115340]  [CleanupTask]:Closed 0 connections
-[1721398175334]  [CleanupTask]:Running cleanup task for [9] connections
-[1721398175335]  [CleanupTask]:Closed 0 connections
-
-
-[1721398984791]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes no connections
-[1721398984817]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] 3 connections to be assigned, max_connection_limit for the fourth thread
-[1721398985469]  [CleanupTask]:Running cleanup task for [1] connections
-[1721398985476]  [CleanupTask]:Closed 0 connections
-[1721398985477]  [TestTask]:Connections in pool:1
-[1721398985492]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@59906517
-[1721398985636]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@4c14435e
-[1721398985964]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@5874485b
-[1721398985973]  [TestTask]:Thread:Thread[#27,pool-1-thread-3,5,main] has no connection:Max pool size reached
-[1721399045484]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] released it's connection
-[1721399045490]  [TestTask]:Thread:Thread[#26,pool-1-thread-2,5,main] executed 227267 inserts
-[1721399045491]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] released it's connection
-[1721399045491]  [TestTask]:Thread:Thread[#28,pool-1-thread-4,5,main] executed 226461 inserts
-[1721399045492]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] released it's connection
-[1721399045492]  [TestTask]:Thread:Thread[#25,pool-1-thread-1,5,main] executed 227988 inserts
-[1721399045494]  [CleanupTask]:Running cleanup task for [3] connections
-[1721399045495]  [CleanupTask]:Closed 0 connections
-[1721399045976]  [TestTask]:Connections in pool:3
-[1721399045977]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@4c14435e
-[1721399045978]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] has no connection:Max pool size reached
-[1721399045978]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@5874485b
-[1721399045978]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@59906517
-[1721399105977]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] released it's connection
-[1721399105977]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] executed 218645 inserts
-[1721399105978]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] released it's connection
-[1721399105978]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] executed 218868 inserts
-[1721399105978]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] released it's connection
-[1721399105979]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] executed 218500 inserts
-[1721399105979]  [CleanupTask]:Running cleanup task for [3] connections
-[1721399105979]  [CleanupTask]:Closed 0 connections
-[1721399106477]  [TestTask]:Connections in pool:3
-[1721399106478]  [TestTask]:Thread:Thread[#36,pool-3-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@4c14435e
-[1721399106478]  [TestTask]:Thread:Thread[#39,pool-3-thread-4,5,main] has no connection:Max pool size reached
-[1721399106478]  [TestTask]:Thread:Thread[#38,pool-3-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@5874485b
-[1721399106479]  [TestTask]:Thread:Thread[#37,pool-3-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@59906517
-[1721399166477]  [TestTask]:Thread:Thread[#37,pool-3-thread-2,5,main] released it's connection
-[1721399166478]  [TestTask]:Thread:Thread[#37,pool-3-thread-2,5,main] executed 232095 inserts
-[1721399166478]  [TestTask]:Thread:Thread[#38,pool-3-thread-3,5,main] released it's connection
-[1721399166478]  [TestTask]:Thread:Thread[#38,pool-3-thread-3,5,main] executed 231635 inserts
-[1721399166479]  [TestTask]:Thread:Thread[#36,pool-3-thread-1,5,main] released it's connection
-[1721399166479]  [TestTask]:Thread:Thread[#36,pool-3-thread-1,5,main] executed 231664 inserts
-[1721399166480]  [CleanupTask]:Running cleanup task for [3] connections
-[1721399166480]  [CleanupTask]:Closed 0 connections
-
-[1721403785212]  [Main]:[TEST] [MaxConnectionCount] 20 [MaxIdlePeriod] 60000 [CleanupRate] 120000 [TestDuration] 60000
-[1721403785226]  [Main]:[TEST_CLEANUP] [EXPECTING] Closes one connection after first cleanup, 4 connections after second cleanup
-[1721403785229]  [Main]:[TEST_CONNECTION_ASSIGNATION] [EXPECTING] Assigns 4 distinct connections at first task, creates 4 connections after second task
-[1721403785249]  [TestTask]:Connections in pool:5
-[1721403785270]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@1a1d6a08
-[1721403785272]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@27808f31
-[1721403785274]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@37d31475
-[1721403785274]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@fad74ee
-[1721403845259]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] released it's connection
-[1721403845266]  [TestTask]:Thread:Thread[#28,pool-1-thread-1,5,main] executed 192834 inserts
-[1721403845267]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] released it's connection
-[1721403845267]  [TestTask]:Thread:Thread[#29,pool-1-thread-2,5,main] executed 192574 inserts
-[1721403845270]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] released it's connection
-[1721403845270]  [TestTask]:Thread:Thread[#30,pool-1-thread-3,5,main] executed 192911 inserts
-[1721403845271]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] released it's connection
-[1721403845271]  [TestTask]:Thread:Thread[#31,pool-1-thread-4,5,main] executed 191773 inserts
-[1721403845272]  [TestTask]:Total inserts:770092
-[1721403905237]  [CleanupTask]:Running cleanup task for [5] connections
-[1721403905240]  [CleanupTask]:Closed 1 connections
-[1721404025236]  [CleanupTask]:Running cleanup task for [4] connections
-[1721404025239]  [CleanupTask]:Closed 4 connections
-[1721404025240]  [TestTask]:Connections in pool:0
-[1721404025295]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] has connection:org.postgresql.jdbc.PgConnection@25ae6cf7
-[1721404025378]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] has connection:org.postgresql.jdbc.PgConnection@30efbaee
-[1721404025477]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] has connection:org.postgresql.jdbc.PgConnection@41ebd1ca
-[1721404025615]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] has connection:org.postgresql.jdbc.PgConnection@4d742143
-[1721404085241]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] released it's connection
-[1721404085242]  [TestTask]:Thread:Thread[#32,pool-2-thread-1,5,main] executed 197454 inserts
-[1721404085242]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] released it's connection
-[1721404085242]  [TestTask]:Thread:Thread[#35,pool-2-thread-4,5,main] executed 195556 inserts
-[1721404085243]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] released it's connection
-[1721404085243]  [TestTask]:Thread:Thread[#33,pool-2-thread-2,5,main] executed 195637 inserts
-[1721404085243]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] released it's connection
-[1721404085244]  [TestTask]:Thread:Thread[#34,pool-2-thread-3,5,main] executed 197919 inserts
-[1721404085244]  [TestTask]:Total inserts:786566

@@ -6,7 +6,7 @@ import java.util.Properties;
 
 public class Configuration {
     private static final Properties CONFIG_PROPERTIES = new Properties();
-    private static final String CONFIG_FILE_PATH = "src/main/resources/configuration.properties";
+    private static final String CONFIG_FILE_PATH = "src/main/resources/configuration-dev.properties";
 
     static {
         try (FileInputStream inputStream = new FileInputStream(CONFIG_FILE_PATH)){

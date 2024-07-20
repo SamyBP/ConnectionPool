@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.pooling;
 
 import org.example.configuration.Configuration;
 
@@ -7,7 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class ConnectionFactory {
+class ConnectionFactory {
     private static final ConnectionFactory connectionFactory = new ConnectionFactory();
 
     private ConnectionFactory() {
@@ -34,11 +34,11 @@ public class ConnectionFactory {
         return connection;
     }
 
-    public static Connection getConnection() {
+    static Connection getConnection() {
         return connectionFactory.createConnection();
     }
 
-    public static void close(Connection connection) {
+    static void close(Connection connection) {
         if (connection == null)
             return;
 
@@ -49,7 +49,7 @@ public class ConnectionFactory {
         }
     }
 
-    public static boolean isClosed(Connection connection) {
+    static boolean isClosed(Connection connection) {
         if (connection == null) {
             return true;
         }
@@ -62,16 +62,5 @@ public class ConnectionFactory {
         }
 
         return isClosed;
-    }
-
-    public static void close(PreparedStatement statement) {
-        if (statement == null)
-            return;
-
-        try {
-            statement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

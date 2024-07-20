@@ -1,118 +1,117 @@
 package org.example.pooling;
 
-import org.example.configuration.Configuration;
-import org.example.utils.ConnectionFactory;
-
 
 import java.sql.Connection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BasicConnectionPool implements ConnectionPool {
-
+    private final BlockingQueue<ConnectionWrapper> connectionPool;
     private final List<Connection> assignedConnections;
-    private final BlockingQueue<Connection> pool;
-    private final Map<Connection, Long> connectionTimeMap;
-    public BasicConnectionPool() {
-        int MIN_CONNECTION_COUNT = Integer.parseInt(Configuration.getProperty("pool.start.connection.count"));
-        this.assignedConnections = Collections.synchronizedList(new ArrayList<>(MAX_CONNECTION_COUNT));
-        this.pool = new ArrayBlockingQueue<>(MAX_CONNECTION_COUNT);
-        this.connectionTimeMap = new HashMap<>();
 
-        for (int i = 0; i < MIN_CONNECTION_COUNT; i++) {
-            Connection connection = ConnectionFactory.getConnection();
-            pool.add(connection);
-            connectionTimeMap.put(connection, System.currentTimeMillis());
+    public BasicConnectionPool() {
+        this.assignedConnections = Collections.synchronizedList(new ArrayList<>(MAX_CONNECTION_COUNT));
+        this.connectionPool = new ArrayBlockingQueue<>(MAX_CONNECTION_COUNT);
+
+        for (int i = 0; i < STARTUP_CONNECTION_COUNT; i++) {
+            connectionPool.add(new ConnectionWrapper(ConnectionFactory.getConnection()));
         }
     }
 
     @Override
-    public Connection assignConnection() throws Exception {
+    public Connection assignConnection() {
         synchronized (this) {
-            if (pool.isEmpty()) {
-                if (assignedConnections.size() < MAX_CONNECTION_COUNT) {
-                    try {
-                        pool.put(ConnectionFactory.getConnection());
-                    } catch (InterruptedException e) {
-                        System.out.println(e.getMessage());
-                    }
-                } else {
-                    throw new Exception("Max pool size reached");
+            if (connectionPool.isEmpty() && assignedConnections.size() >= MAX_CONNECTION_COUNT) {
+                return null;
+            }
+
+            if (connectionPool.isEmpty()) {
+                try {
+                    connectionPool.put(new ConnectionWrapper(ConnectionFactory.getConnection()));
+                } catch (InterruptedException e) {
+                    return null;
                 }
             }
         }
-        Connection connection = null;
+
+        ConnectionWrapper connectionWrapper;
 
         try {
-            connection = pool.take();
+            connectionWrapper = connectionPool.take();
         } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            return null;
         }
 
-
-        if (ConnectionFactory.isClosed(connection)) {
-            connection = ConnectionFactory.getConnection();
+        synchronized (this) {
+            if (ConnectionFactory.isClosed(connectionWrapper.getConnection())) {
+                connectionWrapper.setConnection(ConnectionFactory.getConnection());
+            }
+            connectionWrapper.setLastUsageTimestamp(System.currentTimeMillis());
         }
 
-        synchronized (connectionTimeMap) {
-            connectionTimeMap.put(connection, System.currentTimeMillis());
-        }
-
-        assignedConnections.add(connection);
-        return connection;
+        assignedConnections.add(connectionWrapper.getConnection());
+        return connectionWrapper.getConnection();
     }
 
     @Override
-    public boolean releaseConnection(Connection connection)  {
-        if (!connectionTimeMap.containsKey(connection)) {
-            ConnectionFactory.close(connection);
+    public synchronized boolean releaseConnection(Connection connection)  {
+        if (connection == null || !assignedConnections.contains(connection)) {
             return false;
         }
 
-        if (ConnectionFactory.isClosed(connection)) {
-            connection = ConnectionFactory.getConnection();
+        boolean isReleaseSuccessful = assignedConnections.remove(connection);
+
+        if (ConnectionFactory.isClosed(ConnectionFactory.getConnection())) {
+           connection = ConnectionFactory.getConnection();
         }
 
+        ConnectionWrapper connectionWrapper = new ConnectionWrapper(connection);
         try {
-            pool.put(connection);
-            synchronized (connectionTimeMap) {
-                connectionTimeMap.put(connection, System.currentTimeMillis());
-            }
+            connectionPool.put(connectionWrapper);
         } catch (InterruptedException e) {
-            System.out.println(e.getMessage());
+            isReleaseSuccessful = false;
         }
 
-        return assignedConnections.remove(connection);
+        return isReleaseSuccessful;
     }
 
     @Override
     public synchronized void shutdown() {
-        assignedConnections.forEach(this::releaseConnection);
-        pool.forEach(ConnectionFactory::close);
-        pool.clear();
-        connectionTimeMap.clear();
+        int index = 0;
+        while (!assignedConnections.isEmpty()) {
+            this.releaseConnection(assignedConnections.get(index));
+        }
+        connectionPool.forEach(wrapper -> ConnectionFactory.close(wrapper.getConnection()));
+        connectionPool.clear();
+        assignedConnections.clear();
     }
 
     @Override
     public int getSize() {
-        return pool.size();
+        return connectionPool.size();
     }
 
     @Override
     public synchronized int removeIdle() {
         long currentTime = System.currentTimeMillis();
-        AtomicInteger removedConnectionCount = new AtomicInteger();
-        connectionTimeMap.entrySet().stream()
-                .filter(entry -> currentTime - entry.getValue() > MAX_IDLE_PERIOD)
-                .map(Map.Entry::getKey)
-                .forEach(connection -> {
-                    if (pool.remove(connection)) {
-                        removedConnectionCount.incrementAndGet();
-                        ConnectionFactory.close(connection);
-                    }
-                });
-        return removedConnectionCount.get();
+        AtomicInteger removedConnectionsCount = new AtomicInteger();
+
+        List<ConnectionWrapper> idleConnections =  connectionPool.stream()
+                .filter(wrapper -> currentTime - wrapper.getLastUsageTimestamp() > MAX_IDLE_PERIOD)
+                .toList();
+
+        idleConnections.forEach(wrapper -> {
+            if (connectionPool.remove(wrapper)) {
+                ConnectionFactory.close(wrapper.getConnection());
+                removedConnectionsCount.incrementAndGet();
+            }
+        });
+
+        return removedConnectionsCount.get();
     }
 }

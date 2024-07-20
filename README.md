@@ -28,56 +28,119 @@
     ```java
       ConnectionPool pool = new BasicConnectionPool();
     ```
-
-- Each connection is created, closed and verified through the ConnectionFactory utility class    
-- The CleanupTask is a TimerTask that is scheduled to run at a fixed rate (the one provided in the configuration file) and provides the following messages in a log file representing the number of connections it verifies and the number of connections that meet the requirement to be closed and removed 
-  ````
-    [timestamp]  [TimerTask] Running cleanup task for [x] connections
-    [timestamp]  [TimerTask] Closed y connections
-  ````  
 ### 3. Testing  
-- All tests results are int the [logs.txt](src/main/resources/logs.txt) file
-- For each test the number of database operation are counted, creating THREAD_COUNT threads that do an insert operation for a TEST_DURATION minutes with the following testing scenarios:
-  - The initial number of connections in the pool is larger then the number of threads and the task is repeated at a rate slower then the cleanup.rate and idle.period => the CleanupTask will close and remove some connections 
-  - The initial number of connection in the pool is smaller then the number of threads and the task is repeated at a rate much much slower then the cleanup.rate and idle.period => the pool will create some additional connections, and then the CleanupTask will remove some connections
-  - The number of threads is larger then the max.connection.count => some threads will not get a connection
-  - The initial numebr of connections in the pool is larger / smaller then the number of threads but the task will always be repeated before a connection reaches idle.time of not being used => no need to close any connection
-
+- All unit tests are in the [ConnectionPoolTests.java](src/test/java/ConnectionPoolTests.java) file
+- All tests results are in the [logs.txt](src/main/resources/logs.txt) file where the behaviour of the pool can be seen:
+  - For each test an InsertTask is scheduled to run at a fixed rate with a fixed number of threads for a fixed interval doing the following:
+    - Get a connection from the pool if possible
+    - Do an insert into **test_table** and count the number of operation it (the thread) does
+    - Release the connection after it finished using it
+    - The task will log how many connections are in the pool when it starts, what connection was assigned for each thread, the number of operations per thread and the total, along with the timestamp the events happened
+  - The CleanupTask is scheduled to run with a fixed delay equal with the fixed rate (the rate provided in the configuration.properties) and will attempt to remove the idle connections if any 
+    - It will also log its events providing how many connections are in the pool when it starts and how many it closes
+  - Each test runs for a TEST_DURATION period after which the tasks will be unscheduled and the pool will be shutdown
 
 ### 4. Testing template
 
 ````java
 public class Main {
 
-    public static int TEST_DURATION = ; // duration of the insert task
-    public static int THREAD_COUNT = ; // the number of threads for the insert task
-    public static String EXPECTED_CLEANUP_BEHAVIOUR = ; // expected behaviour of the cleanup task
-    public static String EXPECTED_ASSIGNATION_BEHAVIOUR = ; // expected behaviour of connection assignation
-    public static void main(String[] args) {
-        // pool initialization
-        ConnectionPool connectionPool = new BasicConnectionPool();
-        
-        Logger.log(
-                "[TEST] [MaxConnectionCount] " + ConnectionPool.MAX_CONNECTION_COUNT +
-                " [MaxIdlePeriod] " + ConnectionPool.MAX_IDLE_PERIOD +
-                " [CleanupRate] " + ConnectionPool.POOL_CLEANUP_RATE +
-                " [TestDuration] " + TEST_DURATION * 60 * 1000,
-                Main.class
-        );
-        Logger.log(EXPECTED_CLEANUP_BEHAVIOUR, Main.class);
-        Logger.log(EXPECTED_ASSIGNATION_BEHAVIOUR, Main.class);
-        
-        // timer initialization
-        Timer timer = new Timer();
-        TimerTask cleanupTask = new CleanupTask(connectionPool);
-        TimerTask testTask = new TestTask(TEST_DURATION, THREAD_COUNT, connectionPool);
-        
-        // scheduling tasks
-        // @param1: the task to be scheduled
-        // @param2: the delay from the start of the test for the first run of the task to start
-        // @param3: the fixed_rate of the following runs of the task relative to the last run
-        timer.schedule(cleanupTask, connectionPool.POOL_CLEANUP_RATE, connectionPool.POOL_CLEANUP_RATE);
-        timer.schedule(testTask, 0, connectionPool.POOL_CLEANUP_RATE * 2);
-    }
+  public static int INSERT_TASK_DURATION =  // the duration of the insert task in minutes
+  public static int INSERT_TASK_INTERVAL = // the interval at which the insert task is repeated in ms
+  public static long TEST_DURATION =    // the duration of the entire test in ms
+  public static int THREAD_COUNT =  // the number of threads to do the insert task
+  public static String EXPECTED_CLEANUP_BEHAVIOUR = "[TEST_CLEANUP] [EXPECTING] .........";    // the expected behaviour of the CleanupTask 
+  public static String EXPECTED_ASSIGNATION_BEHAVIOUR = "[TEST_CONNECTION_ASSIGNATION] [EXPECTING] ........";   // the expectations of how the pool assigns and or creates connections
+  public static void main(String[] args) {
+    ConnectionPool connectionPool = new BasicConnectionPool();
+
+    Logger.log(
+            "[TEST] [MaxConnectionCount] " + ConnectionPool.MAX_CONNECTION_COUNT +
+                    " [MaxIdlePeriod] " + ConnectionPool.MAX_IDLE_PERIOD +
+                    " [CleanupRate] " + ConnectionPool.POOL_CLEANUP_RATE +
+                    " [TestDuration] " + TEST_DURATION +
+                    " [InsertTaskDuration] " + INSERT_TASK_DURATION * 60 * 1000 +
+                    " [ThreadCount] " + THREAD_COUNT,
+            Main.class
+    );
+    Logger.log(EXPECTED_CLEANUP_BEHAVIOUR, Main.class);
+    Logger.log(EXPECTED_ASSIGNATION_BEHAVIOUR, Main.class);
+    
+    // initialization of the timer and tasks
+    Timer timer = new Timer();
+    TimerTask cleanupTask = new CleanupTask(connectionPool);
+    TimerTask testTask = new InsertTask(INSERT_TASK_DURATION, THREAD_COUNT, connectionPool);
+    
+    // scheduling the tasks
+    // @param2: the delay from the start of the test for the first run of the task to start
+    // @param3: the fixed_rate of the following runs of the task relative to the last run
+    timer.scheduleAtFixedRate(cleanupTask, connectionPool.POOL_CLEANUP_RATE, connectionPool.POOL_CLEANUP_RATE);
+    timer.scheduleAtFixedRate(testTask, 0, INSERT_TASK_INTERVAL);
+    
+    //stopping the test after TEST_DURATION
+    TimerTask stopTask = new TimerTask() {
+      @Override
+      public void run() {
+        Logger.log("Test execution finished", Main.class);
+        cleanupTask.cancel();
+        testTask.cancel();
+        timer.cancel();
+        Logger.log("All scheduled tasks stopped", Main.class);
+        Logger.log("Shutdown. Connections in pool:" + connectionPool.getSize(), Main.class);
+        connectionPool.shutdown();
+        Logger.log("Connections in the pool after shutdown:" + connectionPool.getSize(), Main.class);
+      }
+    };
+
+    timer.schedule(stopTask, TEST_DURATION, TEST_DURATION);
+  }
 }
 ````
+### 5. Results
+
+- The test results are separated by two lines
+  - The tests were done with the following configuration:
+    - Test 1:
+      - At startup there will be 5 connections in the pool, 1 of them will be assigned to each of the 4 threads => one remaining connection in the pool
+      - After one minute the InsertTasks ends and the connections will be released, also the CleanupTask starts (there can be 1 or 5 connections in the pool, but only one of them was unused for idle time) and removes one connection 
+      - After another minute the CleanupTask starts again (the InsertTask has not yet started), now 4 connections were unused for 1 minute = idle.time => 4 connections were removed 
+      - After 2.5 minutes from the start of the test there will be no connections in the pool, and the test will end
+    ````
+      INSERT_TASK_DURATION = 1
+      INSERT_TASK_INTERVAL = 180_000 (3 minutes)
+      TEST_DURATION = 150_00 (2.5 minutes)
+      THREAD_COUNT = 4
+      pool.start.connection.count=5
+      pool.max.connection.count=20
+      pool.max.idle.period=1
+      pool.cleanup.rate=1
+    ````
+    - Test 2:
+      - At startup there will be 2 connections in the pool, both of them will be assigned to 2 of the threads and 2 other connections will be created and assigned to the other 2 threads
+      - After one minute the InsertTasks ends and the connections will be released back in the pool, also the CleanupTask starts (there are now 4 connections in the pool) and removes none of them
+      - After another minute the CleanupTask starts again (the InsertTask has not yet started), now 4 connections were unused for 1 minute = idle.time => 4 connections were removed
+      - After 2.5 minutes from the start of the test there will be no connections in the pool, and the test will end
+    ````
+      INSERT_TASK_DURATION = 1
+      INSERT_TASK_INTERVAL = 180_000 (3 minutes)
+      TEST_DURATION = 150_00 (2.5 minutes)
+      THREAD_COUNT = 4
+      pool.start.connection.count=2
+      pool.max.connection.count=20
+      pool.max.idle.period=1
+      pool.cleanup.rate=1
+    ````
+    - Test 3:
+      - At startup there will be 2 connections in the pool, both of them will be assigned to 2 of the threads the pool will create another connection for one of the threads and as the maximum amount of connection was reached there won't be any connection for the fourth thread 
+      - After one minute the InsertTasks ends and the connections will be released back in the pool, also the CleanupTask starts (there are now 3 connections in the pool) and removes none of them
+      - After 1.5 minutes from the start of the test there will be 3 connections in the pool, as the test ends the pool shuts down end all connections will be closed
+    ````
+      INSERT_TASK_DURATION = 1
+      INSERT_TASK_INTERVAL = 120_000 (2 minutes)
+      TEST_DURATION = 90_00 (1.5 minutes)
+      THREAD_COUNT = 4
+      pool.start.connection.count=2
+      pool.max.connection.count=3
+      pool.max.idle.period=1
+      pool.cleanup.rate=1
+    ````
