@@ -51,6 +51,7 @@ public class Main {
   public static int THREAD_COUNT =  // the number of threads to do the insert task
   public static String EXPECTED_CLEANUP_BEHAVIOUR = "[TEST_CLEANUP] [EXPECTING] .........";    // the expected behaviour of the CleanupTask 
   public static String EXPECTED_ASSIGNATION_BEHAVIOUR = "[TEST_CONNECTION_ASSIGNATION] [EXPECTING] ........";   // the expectations of how the pool assigns and or creates connections
+  
   public static void main(String[] args) {
     ConnectionPool connectionPool = new BasicConnectionPool();
 
